@@ -1,0 +1,138 @@
+<template lang='pug'>
+v-layout#home(fill-height column)
+    v-layout.mt-3.pb-0(justify-center)
+        v-card.orange.lighten-5(width='30vw')
+            v-layout(justify-center)
+                p.display-1.font-weight-light.font-italic.pt-3 Shelf
+    v-layout.mt-0.pt-0(justify-center)
+
+        v-card.brown.lighten-1(width='80vw')
+            .hondana(v-for='w in 3' :key='w')
+                v-flex.mt-4(xs12)
+                    v-card.ml-3.mb-3.mt-0(width='90px' height='50px' :color='work01.color[w-1] + " lighten-4"')
+
+                        v-divider.pb-1.mb-2.pt-0.mt-1(width='90px' height='1px' :color='work01.color[w-1]')
+
+
+                        v-card-text.py-1 {{ work01.genreTitle[w-1] }}
+                        v-divider.pb-1.mb-2.pt-0.mt-1(width='90px' height='1px' :color='work01.color[w-1]')
+
+
+                    v-layout(justify-center)
+                        v-card.brown(flat width='90%')
+                            v-card-text.overflow-hidden.py-0
+                                v-layout.horiz-scroll(row align-content)
+                                    .px-1.py-2(v-for='book in work01.works[w-1]' :key='book.creationId' @click="detailCheck(book, w)")
+                                        .pos-relative
+                                            v-tooltip(top :color="work01.imageColor[Math.floor(book.creationId /100)-1]")
+                                                template(v-slot:activator="{ on }")
+                                                    v-card.mx-2(min-width='20vw' :color='book.titleimg' v-on="on")
+                                                            v-layout(row wrap)
+                                                                v-responsive(aspect-ratio=9/8)
+                                                                    v-card(max-width='25px' :color="work01.imageColor[Math.floor(book.creationId /100)-1]")
+                                                                        p {{book.creationId }}
+                                                v-divider.white
+                                                span.title.ma-4 {{ book.title }}
+                                                v-divider.white
+                    .mb-2
+                    v-bottom-sheet(v-model="detail")
+                        v-sheet(class="text-center" height="200px")
+                            v-card(flat)
+                                v-card(:color="Click.color")
+                                    v-layout(wrap row)
+                                        p.pa-3.ml-2 {{ Click.id }}
+                                        p.pa-3.title {{ Click.title }}
+                                        v-spacer
+                                        v-btn(@click="detail = !detail" icon :color="Click.color")
+                                            v-icon.white--text mdi-close-circle-outline
+                                v-card-text {{ Click.detail }}
+                                v-layout(wrap row)
+                                    v-spacer
+                                    v-btn.white(@click="gotoBook(Click.id)" icon)
+                                        v-icon mdi-book-open-page-variant
+                //- book(:id = "Click.id")
+
+
+</template>
+
+<script lang='ts'>
+import { Component, Vue } from 'vue-property-decorator';
+import HelloWorld from '@/components/HelloWorld.vue';
+// import WorkListApi from '../logic/RestApi/WorkListApi';
+// import WorkList from '../logic/item/worklist';
+import Book from '../views/Book.vue';
+
+@Component({
+    components: {
+        HelloWorld,
+        Book,
+    },
+})
+
+export default class Home extends Vue {
+    // protected work = null as WorkList | null;
+    protected detail = false;
+    protected Click = {
+        num: 0,
+        id: '',
+        title: 'hoge',
+        detail: 'hoge',
+        color : 'hoge',
+
+    };
+    protected work01 = this.$store.state.work01;
+    protected async mounted() {
+       // this.work = await WorkListApi.get();
+    }
+    protected detailCheck(book: any, genre: number) {
+        this.Click.id = book.creationId;
+        this.Click.title = book.title;
+        this.Click.detail = book.introduction;
+        this.Click.color = this.work01 !== null ? this.work01.imageColor[Math.floor(book.creationId / 100) - 1] : 'white';
+        this.detail = true;
+        let i = 0;
+        while (this.$store.state.work01.works[genre - 1][i].creationId !== this.Click.id) {
+            i += 1;
+        }
+
+        this.$store.state.tonumber = (genre - 1) * 10 + i;
+    }
+    protected gotoBook(id: number, genre: number) {
+        this.$router.push({name: 'Book', query: {id: this.Click.id}});
+    }
+}
+</script>
+
+<style lang='stylus'>
+@require '~@/assets/styles/entry/_view.styl';
+
+html
+    scroll-view: true;
+    // static-view: true;
+
+</style>
+
+<style lang='stylus' scoped>
+@require '~@/assets/styles/entry/_variable.styl';
+
+#home {
+    .overflow-hidden {
+        overflow: hidden;
+    }
+    .horiz-scroll {
+        overflow-x: auto;
+        overflow-y : hidden;
+    }
+
+
+    .bottom-enter-active, .bottom-leave-active {
+        transform: translate(0px, 0px);
+        transition: transform 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    }
+
+    .bottom-enter, .bottom-leave-to {
+        transform: translateY(100vh) translateY(0px);
+    }
+
+}
+</style>
