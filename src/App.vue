@@ -3,7 +3,7 @@ v-app#app
     v-navigation-drawer(app temporary v-model='drawer')
     v-app-bar.thema02(app height='54px')
         v-app-bar-nav-icon.hidden-sm-and-up.nav-icon.thema04--text(@click.stop='drawer = !drawer')
-        v-toolbar-title.thema04--text {{ appName }}
+        v-toolbar-title.thema04--text(@click='goHome') {{ appName }}
         v-spacer
 
         v-btn.ma-2.tile(outlined color="thema04")
@@ -39,6 +39,9 @@ export default class App extends Vue {
             this.accountBtn.icon = 'mdi-account';
             this.accountBtn.text = 'log in';
         }
+    }
+    protected goHome() {
+        this.$router.push('/');
     }
 }
 </script>
