@@ -21,6 +21,10 @@ v-layout#Home(fill-height column)
             i.display-3.text-center bookmark shelf
 
             i.subtitle-1 URLを本棚に置こう
+
+    v-card.goShelf.pt-3(flat width="100vw")
+        v-layout(justify-center)
+            v-btn.thema01(@click="goShelf") 本棚をみる
     Explanetion
 
 </template>
@@ -37,7 +41,11 @@ import Explanetion from '@/components/Explanetion.vue';
         Explanetion,
     },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+    protected goShelf() {
+        this.$router.push('Shelf');
+    }
+}
 </script>
 
 <style lang='stylus'>

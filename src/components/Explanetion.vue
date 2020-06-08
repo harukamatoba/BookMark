@@ -16,9 +16,9 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component
 export default class Explanetion extends Vue {
     protected explanetionDoc = [
-        {img: '', title: '', text: ''},
-        {img: '', title: '', text: ''},
-        {img: '', title: '', text: ''},
+        {img: 'a', title: '', text: 'f'},
+        {img: 'b', title: '', text: 'g'},
+        {img: 'c', title: '', text: 'h'},
     ];
 }
 </script>
