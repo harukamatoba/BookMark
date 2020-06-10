@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Shelf from '@/components/Shelf';
+import Shelf from '@/components/Shelf.vue';
 
 Vue.use(Router);
 
