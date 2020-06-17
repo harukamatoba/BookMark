@@ -43,7 +43,11 @@ import Explanetion from '@/components/Explanetion.vue';
 })
 export default class Home extends Vue {
     protected goShelf() {
-        this.$router.push('Shelf');
+        if (this.$store.state.login === true) {
+            this.$router.push('Shelf');
+        } else {
+            this.$router.push('Login');
+        }
     }
 }
 </script>

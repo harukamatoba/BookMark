@@ -6,8 +6,7 @@ export default class NullApi {
             userId: 0,
             userName: '',
             bmListTitle: [''],
-            bmList: [[]
-        ],
+            bmList: [],
 
         };
     }

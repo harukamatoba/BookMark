@@ -6,7 +6,7 @@ v-app#app
         v-toolbar-title.thema04--text(@click='goHome') {{ appName }}
         v-spacer
 
-        v-btn.ma-2.tile(outlined color="thema04")
+        v-btn.ma-2.tile(outlined color="thema04" @click="loginout()")
             v-icon {{ accountBtn.icon }}
             v-btn-text {{ accountBtn.text }}
 
@@ -24,20 +24,26 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class App extends Vue {
     public appName = process.env.APP_NAME;
     protected drawer = false;
-    protected signInCheck = false;
     protected accountBtn = {
         icon: '',
         text: '',
     };
 
     protected beforeMount() {
-        this.signInCheck = true;
-        if (this.signInCheck) {
+        if (this.$store.state.login) {
             this.accountBtn.icon = 'mdi-logout';
             this.accountBtn.text = 'log out';
         } else {
             this.accountBtn.icon = 'mdi-account';
             this.accountBtn.text = 'log in';
+        }
+    }
+    protected loginout() {
+        if (this.$store.state.login) {
+            this.$store.state.login = false;
+            this.$router.push('/');
+        } else {
+            this.$router.push('Login');
         }
     }
     protected goHome() {

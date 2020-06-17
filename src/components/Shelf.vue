@@ -21,25 +21,27 @@
                                             v-card.mx-1(width='30vw' height="30vw" @click="bookClick(index, book)")
                                                 v-img(:src="'http://capture.heartrails.com/100×100?'+ book.URL" :aspect-ratio= 1)
 
+            v-btn.brown.darken-1(dark  @click="addLine()")
+                v-icon.darken-3 mdi-plus-circle-outline
+    //- ここがクリック後の中身
     v-overlay( :value="overlay")
-            v-card.white(width="70vw" height="50vh")
+            v-card.white(width="70vw" height="45vh")
                 v-layout(align-start justify-top)
                     v-btn(icon  @click="overlay = false" width="5vw")
                         v-icon.black--text mdi-close
                     .bookDetail
                         v-img.pt-2(:src="'http://capture.heartrails.com/100×100?'+ select.URL" :aspect-ratio= 1
                             width='60vw' height="20vh")
-                v-card.white(width="70vw" height="30vh")
+                v-card.white(width="70vw" height="25vh")
                     v-layout()
                         v-card-text.title.ma-0.pa-0.pl-1 {{ select.title }}
                         v-btn.thema01(@click="jumpURL(select.URL)" icon)
                             v-icon mdi-open-in-new
                         v-btn.thema01(@click="copyURL(select.URL)" icon)
                             v-icon mdi-content-copy
-                    v-divider.ma-1.red
+                    v-divider.ma-1.mb-5.thema01
                     v-card-text.subtitle.pa-0.pl-1 {{ select.detail }}
-
-
+                    v-snackbar(v-model="cpyAlert") URLをコピーしました。
 </template>
 
 <script lang='ts'>
@@ -51,29 +53,44 @@ import BookInfoApi from '../logic/ReturnItem/BookInfoApi';
 @Component
 export default class Shelf extends Vue {
     protected overlay: boolean = false;
+    protected cpyAlert: boolean = false;
+    protected isAdLine: boolean = false;
     protected book: BookInfo | object = [];
-    protected select: BookList ={title: '', URL: '', ListId: 0, detail: '', addDate:0};
+    protected select: BookList = {title: '', URL: '', ListId: 0, detail: '', addDate: 0};
     protected async beforeMount() {
         this.book = await BookInfoApi.get();
     }
     protected bookClick(index: number, books: BookList) {
-        this.select = books;
-        if (this.select.title === '') {
-            this.select.title = this.select.URL;
+        if (this.select !== books) {
+            this.select = books;
+            if (this.select.title === '') {
+                this.select.title = this.select.URL;
+            }
+            if (window.parent.screen.width <= 500) {
+                if (this.select.title.length > 10) {
+                    this.select.title = this.select.title.slice(0, 10);
+                    this.select.title += '...';
+                }
+            }
         }
         this.overlay = true;
     }
     protected jumpURL(url: string) {
         window.open(url);
     }
+
     protected copyURL(url: string) {
-        let ta = document.createElement('textarea');
-        ta.value = url;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.removeChild(ta);
-        alert('copy: ' + url);
+    const copyFrom = document.createElement('textarea');
+    copyFrom.textContent = url;
+    const bodyElm = document.getElementsByTagName('body')[0];
+    bodyElm.appendChild(copyFrom);
+    copyFrom.select();
+    const retVal = document.execCommand('copy');
+    bodyElm.removeChild(copyFrom);
+    this.cpyAlert = true;
+    }
+    protected addLine() {
+        this.isAdLine = true;
     }
 }
 </script>
