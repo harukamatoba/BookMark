@@ -1,6 +1,9 @@
 <template lang='pug'>
 v-app#app
     v-navigation-drawer(app temporary v-model='drawer')
+        v-list
+            v-list-item(v-for="(item, index) in items" :key="index" @click="Jump(index)")
+                v-list-item-title {{item}}
     v-app-bar.thema02(app height='54px')
         v-app-bar-nav-icon.hidden-sm-and-up.nav-icon.thema04--text(@click.stop='drawer = !drawer')
         v-toolbar-title.thema04--text(@click='goHome') {{ appName }}
@@ -11,7 +14,6 @@ v-app#app
             v-btn-text {{ accountBtn.text }}
 
         v-menu.hidden-xs-only
-
 
     v-content#content
         router-view
@@ -24,6 +26,7 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class App extends Vue {
     public appName = process.env.APP_NAME;
     protected drawer = false;
+    protected items = ['ホーム', '本棚'];
     protected accountBtn = {
         icon: '',
         text: '',
@@ -48,6 +51,17 @@ export default class App extends Vue {
     }
     protected goHome() {
         this.$router.push('/');
+    }
+    protected Jump(index: number) {
+        if (index === 0) {
+            this.$router.push('/');
+        } else {
+            if (this.$store.state.login) {
+                this.$router.push('Shelf');
+            } else {
+                this.$router.push('Login');
+            }
+        }
     }
 }
 </script>

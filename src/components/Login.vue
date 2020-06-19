@@ -8,8 +8,8 @@
                             v-toolbar-title ログイン
                     v-card-text
                         v-form
-                            v-text-field(label="account" v-model="account" prepend-icon="mdi-account" type="text" :rules="acRule")
-                            v-text-field(label="password" v-model="pass" prepend-icon="mdi-lock" type="password" :rules="pasRule")
+                            v-text-field(label="account" v-model="account" prepend-icon="mdi-account" type="text" )
+                            v-text-field(label="password" v-model="pass" prepend-icon="mdi-lock" type="password" )
 
                     v-card-action
                         v-layout(justify-center ailgn-center)
@@ -28,12 +28,12 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Login extends Vue {
     protected pass: string = '';
     protected account: string = '';
-    protected acRule = {
-        length: v => (v || '').length >= 6 || '6文字以上',
-    };
-    protected pasRule = {
-        length: v => (v || '').length >= 6 || '6文字以上',
-    };
+    // protected acRule = {
+    //     length: v => (v || '').length >= 6 || '6文字以上',
+    // };
+    // protected pasRule = {
+    //     length: v => (v || '').length >= 6 || '6文字以上',
+    // };
     protected LoginBtn() {
         if (this.pass.length >= 6 && this.account.length >= 6) {
             this.$store.state.login = true;

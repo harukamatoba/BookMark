@@ -1,62 +1,21 @@
-# vuetify-template
+## ブックマークを本棚に入れてみる
+　未完成ですが、粗方の機能のフロントが出来たので紹介します。
 
-## Project setup
-```
-yarn install
-```
+### ログイン機能 (/Login)
+　ログイン機能。今はとりあえず何らかの文字列をフォームの中に入れるとログインしたことになります。ログインすると自動で本棚に飛びます。
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+### ブックマーク閲覧 (/Shelf)
+　ブックマークをあたかも本棚から取り出すように閲覧することが出来ます。今回はDB連携やサーバー間通信を実装できなかったのでダミーデータを使用します。
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+### ブックマーク追加 (/Shelf)
+　1つの段の末尾に追加ボタンがあります。それを押すと、ブックマークのタイトル、URL、説明を入力できます。最低でもURL入力するだけで登録できます。
 
-### Run your tests
-```
-yarn run test
-```
+### 段追加 (/Shelf)
+　ブックマークをまとめる段の追加です。名称を入れれば段が増えます。
 
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Run your end-to-end tests
-```
-yarn run test:e2e
-```
-
-### Run your unit tests
-```
-yarn run test:unit
-```
-
-### Create Vue
-* required: ts-node
-* instaration
-    1. GLOBAL INSTALL
-        1. Install ts-node
-            ```sh
-            yarn global add typescript ts-node
-            ```
-        2. Add PATH `yarn global bin`
-    2. or LOCAL INSTALL
-        1. Install ts-node
-            ```sh
-            yarn add typescript ts-node
-            ```
-
-```
-yarn create:view --name path/to/view
-```
-
-```
-yarn create:compo --name path/to/component
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 今後実装したい所
+- DB連携
+- 不正なURLかどうかの確認
+- サイトの代替サムネイル画像
+- ホーム画面での紹介
+- レイアウト

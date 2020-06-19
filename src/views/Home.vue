@@ -25,7 +25,7 @@ v-layout#Home(fill-height column)
     v-card.goShelf.pt-3(flat width="100vw")
         v-layout(justify-center)
             v-btn.thema01(@click="goShelf") 本棚をみる
-    Explanetion
+    //-Explanetion
 
 </template>
 

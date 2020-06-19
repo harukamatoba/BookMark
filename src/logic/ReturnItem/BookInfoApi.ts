@@ -4,7 +4,7 @@ export default class BookInfoApi {
     public static async get(): Promise<UserInfo> {
         return {
             userId: 1229,
-            userName: 'unkown',
+            userName: 'unknown',
             bmListTitle: ['hobby', 'work', 'study'],
             bmList: [[
                 {ListId: 101, title: 'desmos', detail: 'グラフ作る', URL: 'https://www.desmos.com/', addDate: 20200303 },
